@@ -13,7 +13,7 @@
 
 Auth::routes();
 
-Route::get('/', 'HomeController@index');
+Route::get('/', 'ChatController@index');
 Route::get('/chat', 'ChatController@index');
 Route::post('/chat', 'ChatController@send');
 Route::get('/messages', 'ChatController@messages');
