@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\SendMessage;
 
 class ChatController extends Controller
 {
@@ -34,16 +35,12 @@ class ChatController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\SendMessage  $request
      * @return \Illuminate\Http\Response
      */
-    public function send(Request $request)
+    public function send(SendMessage $request)
     {
         $fromUser = Auth::user();
-
-        $this->validate($request, [
-            'message' => 'required|max:255',
-        ]);
 
         $message = Message::create([
             'message' => $request->input('message'),
@@ -80,7 +77,7 @@ class ChatController extends Controller
             $messages[] = [
                 'time' => (new Carbon($message->created_at))->diffForHumans(),
                 'user_id' => $message->user_id,
-                'username' => $message->username,
+                'username' => $message->user->name,
                 'message' => $message->message
             ];
         }
